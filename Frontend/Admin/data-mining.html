@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Mining - Phn C?m Khch Hng</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/theme-default.css" />
+    <link rel="stylesheet" href="assets/css/demo.css" />
+    <script src="assets/vendor/js/helpers.js"></script>
+    <script src="assets/js/config.js"></script>
+</head>
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo"><a href="index.html" class="app-brand-link"><span class="app-brand-text demo menu-text fw-bolder ms-2">BAKERY</span></a></div>
+                <ul class="menu-inner py-1">
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div>T?ng Quan</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Qu?n L C?a Hng</span>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-group"></i>
+                            <div>Nhn s?</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-employee.html" class="menu-link">
+                                    <div>Danh sch Nhn vin</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-employee.html" class="menu-link">
+                                    <div>Thm/C?p nh?t H? so</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cake"></i>
+                            <div>Kho S?n ph?m</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-product.html" class="menu-link">
+                                    <div>Danh sch S?n ph?m</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-product.html" class="menu-link">
+                                    <div>Thm/C?p nh?t S?n ph?m</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-user-pin"></i>
+                            <div>Khch hng</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-customer.html" class="menu-link">
+                                    <div>Danh sch Khch hng</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-customer.html" class="menu-link">
+                                    <div>Thm m?i Khch hng</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-gift"></i>
+                            <div>Khuy?n mi</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-khuyenMai.html" class="menu-link">
+                                    <div>Danh sch Khuy?n mi</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-khuyenMai.html" class="menu-link">
+                                    <div>Thm m?i Khuy?n mi</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-receipt"></i>
+                            <div>on hng</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-order.html" class="menu-link">
+                                    <div>Danh sch on hng</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-order.html" class="menu-link">
+                                    <div>Thm m?i on hng</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">H? Th?ng</span>
+                    </li>
+                    <li class="menu-item">
+                        <a href="auth-login-basic.html" class="menu-link" onclick="localStorage.clear();">
+                            <i class="menu-icon tf-icons bx bx-power-off text-danger"></i>
+                            <div class="text-danger">ang Xu?t</div>
+                        </a>
+                    </li>
+                
+                                        <!-- Khai Phá Dữ Liệu Menu -->
+                                        <!-- Khai Phá Dữ Liệu Menu -->
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Khai Phá Dữ Liệu</span>
+                    </li>
+                    <li class="menu-item active open">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+                            <div>Data Mining</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item active">
+                                <a href="data-mining.html" class="menu-link">
+                                    <div>Phân Cụm (K-Means)</div>
+                                </a>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="product-recommendation.html" class="menu-link">
+                                    <div>Gợi Ý Sản Phẩm (Apriori)</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+</ul>
+            </aside>
+
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                     id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <!-- Search -->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+
+                            </div>
+                        </div>
+                        <!-- /Search -->
+
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block" id="navUserFullName">ang n?p...</span>
+                                                    <small class="text-muted" id="navUserRole">Nhn vin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" id="navAccountSettings" href="javascript:void(0);">
+                                            <i class="bx bx-cog me-2"></i>
+                                            <span class="align-middle">Ci ?t Ti Kho?n</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="auth-login-basic.html" onclick="localStorage.clear();">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle fw-bold">ang Xu?t</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="fw-bold py-3 mb-4">
+                            <span class="text-muted fw-light">Khai Ph D? Li?u /</span> Phn C?m Khch Hng (K-Means)
+                        </h4>
+
+                        <!-- KPI Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">T?ng Khch Hng Phn Tch</h5>
+                                        <h2 class="text-primary mb-0" id="totalCustomers">-</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">S? C?m (K)</h5>
+                                        <h2 class="text-success mb-0" id="kValue">-</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Thu?t Ton</h5>
+                                        <h2 class="text-info mb-0">K-Means</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts -->
+                        <div class="row mb-4">
+                            <!-- Pie Chart -->
+                            <div class="col-md-5">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">T? L? Phn B? Khch Hng</h5>
+                                    </div>
+                                    <div class="card-body d-flex justify-content-center align-items-center">
+                                        <canvas id="clusterPieChart" style="max-height: 300px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bar Chart -->
+                            <div class="col-md-7">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Chi Tiu & T?n Su?t Theo C?m</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="clusterBarChart" style="max-height: 300px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="card">
+                            <div class="card-header border-bottom">
+                                <h5 class="mb-0">K?t Qu? Phn C?m Chi Ti?t</h5>
+                            </div>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Tn C?m</th>
+                                            <th>S? Lu?ng KH</th>
+                                            <th>Trung Bnh on / KH</th>
+                                            <th>Trung Bnh Chi Tiu / KH</th>
+                                            <th>M?c ? Tr?ng Y?u</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clusterTableBody">
+                                        <tr>
+                                            <td colspan="5" class="text-center">ang t?i d? li?u K-Means...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- / Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="assets/js/api-config.js"></script>
+
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Data Mining Script -->
+    <script src="assets/js/data-mining.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Computer - Cửa Hàng Công Nghệ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="index.html" class="brand">
+          <span class="brand-mark" style="background:var(--indigo)">S</span>
+          Smart Computer
+        </a>
+
+        <form class="search" role="search"
+          onsubmit="event.preventDefault(); window.location.href='shop.html?search=' + this.querySelector('input').value;">
+          <input type="text" placeholder="Tìm kiếm máy tính, linh kiện..." />
+          <button type="submit">🔍</button>
+        </form>
+
+        <div class="icon-row">
+          <a href="account.html" class="icon-btn">👤</a>
+          <a href="cart.html" class="icon-btn icon-btn--cart">
+            🛒 <span class="count" style="background:red; color:white;">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+      <div class="container">
+        <a href="shop.html" class="all-cats">☰ Xem Tất Cả Danh Mục</a>
+        <div class="main-nav">
+        <a href="index.html">Trang Chủ</a>
+        <a href="shop.html">Cửa Hàng</a>
+        <a href="cart.html">Giỏ Hàng</a>
+        <a href="contact.html">Liên Hệ</a>
+      </div>
+      </div>
+    </nav>
+
+    <main id="main-home">
+
+      <!-- BANNER TĨNH TẠM THỜI -->
+      <section class="hero">
+        <div class="container">
+          <div class="bento">
+            <article class="bento-card bento-card--lg">
+              <div class="sparkle"></div>
+              <div>
+                <span class="eyebrow">⚡ Siêu Phẩm 2026</span>
+                <h2>Sức mạnh Đột Phá<br />Laptop AI Thế Hệ Mới</h2>
+                <a href="shop.html" class="btn btn--paper">Mua Ngay</a>
+              </div>
+              <img class="product"
+                src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900&q=80"
+                alt="Laptop" />
+            </article>
+            <article class="bento-card bento-card--purple">
+              <h3 style="font-size:var(--text-xl); line-height:1.15">Linh
+                kiện<br />PC Đỉnh Cao</h3>
+              <img class="product"
+                src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=600&q=80"
+                alt="PC" />
+            </article>
+            <article class="bento-card bento-card--teal">
+              <h3 style="font-size:var(--text-xl); line-height:1.15">Gear
+                Xịn<br />Cho Gamer</h3>
+              <img class="product"
+                src="https://images.unsplash.com/photo-1527814050087-3793815479db?w=600&q=80"
+                alt="Mouse" />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- KHU VỰC 1: LỌC SẢN PHẨM THEO TỪNG CATEGORY (Tự Động) -->
+      <section class="section" style="padding-top: var(--s5)">
+        <div class="container">
+          <div class="section-head">
+            <h2>Sản Phẩm Nổi Bật</h2>
+            <a href="shop.html" class="view-all">Xem tất cả →</a>
+          </div>
+
+          <!-- Tabs (JS sinh tự động) -->
+          <div class="tabs" role="tablist">
+            <!-- JS tự đổ các tab Laptop, Phím chuột... vào đây -->
+          </div>
+
+          <!-- Lưới Sản Phẩm (JS sinh tự động theo tab) -->
+          <div class="products">
+            <!-- Data từ API bay vào đây -->
+          </div>
+        </div>
+      </section>
+
+      <!-- KHU VỰC 2: CHỜ NHÚNG THUẬT TOÁN PYTHON (Ẩn tạm thời) -->
+      <section id="python-combos" class="section" style="display:none;">
+        <div class="container">
+          <h2>Gợi ý riêng cho bạn (AI Recommendations)</h2>
+          <!-- Sau này bạn viết API Python quăng vào đây -->
+        </div>
+      </section>
+
+      <!-- KHU VỰC 3: HIỂN THỊ CÁC CATEGORY CỦA BẠN (Tự Động) -->
+      <section class="section" style="padding-top: var(--s5)">
+        <div class="container">
+          <div class="section-head">
+            <h2>Mua sắm theo Danh mục</h2>
+            <a href="shop.html" class="view-all">Tất cả sản phẩm →</a>
+          </div>
+          <div class="cats-grid">
+            <!-- JS tự động đếm xem có bao nhiêu Laptop, Điện thoại... đổ vào đây -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-bottom"
+          style="display:flex; justify-content:space-between; align-items:center;">
+          <span>© 2026 Smart Computer · All rights reserved</span>
+          <span>Đồ án Báo Cáo Giữa Kỳ</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Các file JS cấu trúc -->
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/store.js?v=7" defer></script>
+    <!-- File tính Giỏ hàng hôm nọ -->
+    <script src="assets/js/home.js?v=7" defer></script>
+    <!-- File Xử lý Trang chủ vừa tạo -->
+  </body>
+</html>

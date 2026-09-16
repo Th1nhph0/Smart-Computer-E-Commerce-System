@@ -29,6 +29,8 @@ public partial class Product
 
     public DateTime? UpdatedAt { get; set; }
 
+    public string? Description { get; set; }
+
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();

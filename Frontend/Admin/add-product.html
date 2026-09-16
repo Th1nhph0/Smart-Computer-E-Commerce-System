@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-free">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Thông tin Sản phẩm</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="assets/css/demo.css" />
+    <script src="assets/vendor/js/helpers.js"></script>
+    <script src="assets/js/config.js"></script>
+</head>
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Bakery</span>
+                    </a>
+                </div>
+                <div class="menu-inner-shadow"></div>
+                <ul class="menu-inner py-1">
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div>Tổng Quan</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Quản Lý Cửa Hàng</span>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-group"></i>
+                            <div>Nhân sự</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-employee.html" class="menu-link">
+                                    <div>Danh sách Nhân viên</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-employee.html" class="menu-link">
+                                    <div>Thêm/Cập nhật Hồ sơ</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cake"></i>
+                            <div>Kho Sản phẩm</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-product.html" class="menu-link">
+                                    <div>Danh sách Sản phẩm</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-product.html" class="menu-link">
+                                    <div>Thêm/Cập nhật Sản phẩm</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-user-pin"></i>
+                            <div>Khách hàng</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-customer.html" class="menu-link">
+                                    <div>Danh sách Khách hàng</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-customer.html" class="menu-link">
+                                    <div>Thêm mới Khách hàng</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-gift"></i>
+                            <div>Khuyến mãi</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-khuyenMai.html" class="menu-link">
+                                    <div>Danh sách Khuyến mãi</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-khuyenMai.html" class="menu-link">
+                                    <div>Thêm mới Khuyến mãi</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-receipt"></i>
+                            <div>Đơn hàng</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="list-order.html" class="menu-link">
+                                    <div>Danh sách Đơn hàng</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="add-order.html" class="menu-link">
+                                    <div>Thêm mới Đơn hàng</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Hệ Thống</span>
+                    </li>
+                    <li class="menu-item">
+                        <a href="auth-login-basic.html" class="menu-link" onclick="localStorage.clear();">
+                            <i class="menu-icon tf-icons bx bx-power-off text-danger"></i>
+                            <div class="text-danger">Đăng Xuất</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                     id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <!-- Search -->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+
+                            </div>
+                        </div>
+                        <!-- /Search -->
+
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block" id="navUserFullName">Đang nạp...</span>
+                                                    <small class="text-muted" id="navUserRole">Nhân viên</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" id="navAccountSettings" href="javascript:void(0);">
+                                            <i class="bx bx-cog me-2"></i>
+                                            <span class="align-middle">Cài Đặt Tài Khoản</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="auth-login-basic.html" onclick="localStorage.clear();">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle fw-bold">Đăng Xuất</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span>Thông tin</h4>
+                        <div class="row">
+                            <div class="col-xl">
+                                <div class="card mb-4">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Thêm Sản Phẩm Mới</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="formAddProduct">
+                                            <div class="row">
+                                                <div class="col-md-8 mb-3">
+                                                    <label class="form-label" for="tenSanPham">Tên Sản phẩm</label>
+                                                    <input type="text" class="form-control" id="tenSanPham" placeholder="Ví dụ: Laptop Gaming ASUS ROG..." required />
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label class="form-label" for="sku">Mã Sku</label>
+                                                    <input type="text" class="form-control" id="sku" placeholder="VD: ASUS-ROG-2026" />
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label class="form-label" for="giaBan">Giá bán (VNĐ)</label>
+                                                    <input type="number" class="form-control" id="giaBan" placeholder="25000000" required />
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label class="form-label text-primary fw-bold" for="soLuong">Số lượng tồn kho</label>
+                                                    <input type="number" class="form-control" id="soLuong" placeholder="0" readonly title="Chỉ xem. Quản lý ở phân hệ Kho hàng" />
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label class="form-label" for="phanLoai">Danh mục</label>
+                                                    <select class="form-select" id="phanLoai" required>
+                                                        <option value="">-- Đang tải --</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label class="form-label" for="thuongHieu">Thương hiệu</label>
+                                                    <select class="form-select" id="thuongHieu" required>
+                                                        <option value="">-- Đang tải --</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label" for="thoiGianBaoHanh">Thời gian bảo hành (Tháng)</label>
+                                                    <input type="number" class="form-control" id="thoiGianBaoHanh" placeholder="24" />
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label" for="trangThai">Trạng thái bán</label>
+                                                    <select class="form-select" id="trangThai">
+                                                        <option value="true">Đang kinh doanh</option>
+                                                        <option value="false">Ngừng kinh doanh</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="thongSoKyThuat">Thông số kỹ thuật</label>
+                                                <textarea class="form-control" id="thongSoKyThuat" rows="3" placeholder="CPU, RAM, VGA, Màn hình..."></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="moTa">Mô tả chi tiết</label>
+                                                <textarea class="form-control" id="moTa" rows="3" placeholder="Bài viết giới thiệu sản phẩm..."></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold text-primary" for="fileAnhSanPham">TẢI HÌNH ẢNH SẢN PHẨM LÊN (FILE ĐÍNH KÈM)</label>
+
+                                                <input type="file" class="form-control" id="fileAnhSanPham" accept="image/*" onchange="uploadAnhSanPham()" />
+
+                                                <input type="hidden" id="linkHinhAnh" />
+
+                                                <small id="uploadStatusSP" class="text-muted d-block mt-1"></small>
+
+                                                <div id="previewContainerSP" class="mt-2" style="display: none;">
+                                                    <small class="text-muted d-block mb-1">Ảnh sản phẩm hiện tại:</small>
+                                                    <img id="previewImgSP" src="" class="img-fluid rounded border shadow-sm" style="max-height: 150px; object-fit: contain; background: #f8f9fa; padding: 4px;" />
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Lưu Sản Phẩm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/js/api-config.js"></script>
+
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/product.js"></script>
+</body>
+</html>

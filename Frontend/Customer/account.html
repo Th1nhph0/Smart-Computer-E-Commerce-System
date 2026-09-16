@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tài Khoản Của Tôi - Smart Computer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+        .acc-layout {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            min-height: 60vh;
+        }
+        .acc-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 30px 20px;
+            height: fit-content;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .acc-sidebar h3 { font-size: 18px; margin-bottom: 30px; color: var(--indigo); line-height: 1.4; }
+        .acc-menu { list-style: none; padding: 0; margin: 0; }
+        .acc-menu li {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .acc-menu li:hover { background: #f8f9fa; color: var(--indigo); }
+        .acc-menu li.active { background: var(--indigo); color: white; }
+        
+        .acc-content {
+            flex: 1;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .tab-pane { display: none; animation: fadeIn 0.3s ease; }
+        .tab-pane.active { display: block; }
+
+        .acc-form-group { margin-bottom: 25px; }
+        .acc-form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color:#444; }
+        .acc-form-group input { 
+            width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 15px;
+        }
+        .acc-form-group input:focus { border-color: var(--indigo); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        
+        .acc-btn {
+            background: var(--indigo); color: white; border: none; padding: 14px 30px; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s;
+        }
+        .acc-btn:hover { background: #4338ca; }
+        
+        /* Style cho danh sách đơn hàng mô phỏng */
+        .order-item { border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+    </style>
+  </head>
+  <body>
+    <!-- header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="index.html" class="brand"><span class="brand-mark" style="background:var(--indigo)">S</span> Smart Computer</a>
+        <form class="search" role="search" onsubmit="event.preventDefault(); window.location.href='shop.html?search=' + this.querySelector('input').value;">
+          <input type="text" placeholder="Tìm kiếm máy tính, linh kiện..." />
+          <button type="submit">🔍</button>
+        </form>
+        <div class="icon-row">
+          <a href="account.html" class="icon-btn" title="Tài khoản của tôi">🟢</a>
+          <a href="cart.html" class="icon-btn icon-btn--cart">🛒 <span class="count" style="background:red; color:white;">0</span></a>
+        </div>
+      </div>
+    </header>
+    
+    <main class="container acc-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="acc-sidebar">
+            <h3>Xin chào, <br><span id="acc-name" style="color: #333; font-size: 24px;">Khách</span>!</h3>
+            <ul class="acc-menu">
+                <li class="active" onclick="switchAccTab('orders', this)">📦 Lịch sử mua hàng</li>
+                <li onclick="switchAccTab('profile', this)">👤 Cập nhật thông tin</li>
+                <li onclick="switchAccTab('password', this)">🔑 Đổi mật khẩu</li>
+            </ul>
+            <button onclick="logout()" style="width: 100%; margin-top: 40px; padding: 14px; background: #fee2e2; color: #ef4444; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.3s;">Đăng Xuất</button>
+        </aside>
+
+        <!-- Khu vực nội dung -->
+        <section class="acc-content">
+            
+            <!-- TAB 1: LỊCH SỬ ĐƠN HÀNG -->
+            <div id="tab-orders" class="tab-pane active">
+                <h2 style="margin-bottom: 30px;">Lịch sử mua hàng</h2>
+                
+                <!-- Đơn hàng ảo số 1 -->
+                <div class="order-item">
+                    <div class="order-header">
+                        <div><strong style="font-size: 16px;">Mã ĐH: #ORD-20260901</strong> <span style="color: #888; font-size: 14px; margin-left: 10px;">Ngày đặt: 01/09/2026</span></div>
+                        <span style="color: var(--emerald); font-weight: 700; background: #dcfce7; padding: 4px 12px; border-radius: 20px; font-size: 13px;">Giao thành công</span>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=100&q=80" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 16px;">Laptop Gaming Predator (Sản phẩm mẫu)</div>
+                            <div style="color: #666; font-size: 14px; margin-top: 5px;">Số lượng: 1</div>
+                        </div>
+                        <div style="font-weight: 800; color: var(--indigo); font-size: 18px;">25.990.000 đ</div>
+                    </div>
+                    <div style="margin-top: 20px; text-align: right; border-top: 1px dashed #eee; padding-top: 15px;">
+                        <button style="padding: 8px 16px; background: white; border: 1px solid var(--indigo); color: var(--indigo); border-radius: 6px; cursor: pointer; font-weight: 600;">Viết Đánh Giá</button>
+                    </div>
+                </div>
+                
+                <!-- Đơn hàng ảo số 2 -->
+                <div class="order-item">
+                    <div class="order-header">
+                        <div><strong style="font-size: 16px;">Mã ĐH: #ORD-20260914</strong> <span style="color: #888; font-size: 14px; margin-left: 10px;">Ngày đặt: Hôm qua</span></div>
+                        <span style="color: var(--amber); font-weight: 700; background: #fef3c7; padding: 4px 12px; border-radius: 20px; font-size: 13px;">Đang xử lý</span>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=100&q=80" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 16px;">PC Custom AI-Ready</div>
+                            <div style="color: #666; font-size: 14px; margin-top: 5px;">Số lượng: 1</div>
+                        </div>
+                        <div style="font-weight: 800; color: var(--indigo); font-size: 18px;">45.500.000 đ</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: CẬP NHẬT THÔNG TIN CÁ NHÂN -->
+            <div id="tab-profile" class="tab-pane">
+                <h2 style="margin-bottom: 30px;">Hồ sơ cá nhân</h2>
+                <form onsubmit="handleUpdateProfile(event)">
+                    <div class="acc-form-group">
+                        <label>Họ và Tên</label>
+                        <input type="text" id="prof-name" required />
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Số điện thoại</label>
+                        <input type="tel" id="prof-phone" placeholder="Vd: 0912345678" />
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Email (Không thể thay đổi)</label>
+                        <input type="email" id="prof-email" value="admin@smartcomputer.com" readonly style="background: #f8f9fa; color: #888; cursor: not-allowed;" />
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Địa chỉ nhận hàng mặc định</label>
+                        <input type="text" id="prof-address" placeholder="Số nhà, đường, phường/xã, quận/huyện..." />
+                    </div>
+                    <button type="submit" class="acc-btn">Lưu Thay Đổi</button>
+                </form>
+            </div>
+
+            <!-- TAB 3: ĐỔI MẬT KHẨU -->
+            <div id="tab-password" class="tab-pane">
+                <h2 style="margin-bottom: 30px;">Bảo mật tài khoản</h2>
+                <form onsubmit="handleChangePassword(event)">
+                    <div class="acc-form-group">
+                        <label>Mật khẩu hiện tại</label>
+                        <input type="password" required placeholder="Nhập mật khẩu cũ..." />
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" id="new-pwd" required placeholder="Ít nhất 6 ký tự..." minlength="6" />
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirm-pwd" required placeholder="Nhập lại mật khẩu mới..." minlength="6" />
+                    </div>
+                    <button type="submit" class="acc-btn">Cập Nhật Mật Khẩu</button>
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="site-footer" style="margin-top: 80px;">
+      <div class="container"><div class="footer-bottom"><span>© 2026 Smart Computer · All rights reserved</span></div></div>
+    </footer>
+
+    <script src="assets/js/store.js?v=7" defer></script>
+    <script>
+        // Khi load trang, lấy tên từ Session đắp vào
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(sessionStorage.getItem('loggedInUser'));
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                document.getElementById('acc-name').textContent = user.fullName || user.username;
+                document.getElementById('prof-name').value = user.fullName || user.username;
+            }
+        });
+
+        // Hàm chuyển Tab menu mượt mà
+        function switchAccTab(tabId, el) {
+            // Xóa active khỏi các menu
+            document.querySelectorAll('.acc-menu li').forEach(li => li.classList.remove('active'));
+            el.classList.add('active');
+            
+            // Xóa active khỏi các nội dung và bật cái được chọn
+            document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Cập nhật thông tin giả lập
+                async function handleUpdateProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('prof-name').value;
+            const newPhone = document.getElementById('prof-phone').value;
+            const newAddress = document.getElementById('prof-address').value;
+            
+            const user = JSON.parse(sessionStorage.getItem('loggedInUser'));
+            
+            if (!user || !user.customerId) {
+                showToast('Không tìm thấy thông tin user!', 'error');
+                return;
+            }
+
+            try {
+                // Call API
+                const response = await fetch(`http://localhost:5076/api/Customers/${user.customerId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customerId: user.customerId,
+                        accountId: user.accountId,
+                        fullName: newName,
+                        phone: newPhone,
+                        address: newAddress
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Lỗi cập nhật API');
+                }
+
+                // Update session storage
+                user.fullName = newName;
+                user.phone = newPhone;
+                user.address = newAddress;
+                sessionStorage.setItem('loggedInUser', JSON.stringify(user));
+                
+                // Update UI
+                document.getElementById('acc-name').textContent = newName;
+                showToast('Đã lưu thành công thông tin hồ sơ của bạn!');
+            } catch (err) {
+                console.error(err);
+                showToast('Cập nhật thất bại. Vui lòng thử lại!', 'error');
+            }
+        }
+
+        // Đổi mật khẩu giả lập
+        function handleChangePassword(e) {
+            e.preventDefault();
+            const p1 = document.getElementById('new-pwd').value;
+            const p2 = document.getElementById('confirm-pwd').value;
+            
+            if(p1 !== p2) {
+                showToast('Opps! Mật khẩu xác nhận không khớp. Vui lòng kiểm tra lại!', 'error');
+                return;
+            }
+            showToast('Tuyệt vời! Đổi mật khẩu thành công!');
+            e.target.reset(); // Xóa trắng form sau khi thành công
+        }
+
+        // Đăng xuất
+        function logout() {
+            sessionStorage.removeItem('loggedInUser');
+            showToast('Đã đăng xuất tài khoản!', 'success', 'index.html');
+        }
+    </script>
+  </body>
+</html>

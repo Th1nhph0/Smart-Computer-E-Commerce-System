@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>Quản Lý Đơn Hàng</title>
+        <link rel="icon" type="image/x-icon"
+            href="assets/img/favicon/favicon.ico" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+        <link rel="stylesheet" href="assets/vendor/css/core.css"
+            class="template-customizer-core-css" />
+        <link rel="stylesheet" href="assets/vendor/css/theme-default.css"
+            class="template-customizer-theme-css" />
+        <link rel="stylesheet" href="assets/css/demo.css" />
+        <script src="assets/vendor/js/helpers.js"></script>
+        <script src="assets/js/config.js"></script>
+
+        <style>
+        .bakery-card {
+            border: none;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            background: #fff;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+            .bakery-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important;
+            }
+
+        .card-img-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+            .card-img-container img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+        .status-badge-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 32px;
+            margin-bottom: 12px;
+        }
+
+        .current-status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .next-status-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-badge-wrapper:hover .current-status-badge {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .status-badge-wrapper:hover .next-status-btn {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                <aside id="layout-menu"
+                    class="layout-menu menu-vertical menu bg-menu-theme">
+                    <div class="app-brand demo"><a href="index.html"
+                            class="app-brand-link"><span
+                                class="app-brand-text demo menu-text fw-bolder ms-2">BAKERY</span></a></div>
+                    <ul class="menu-inner py-1">
+                        <li class="menu-item">
+                            <a href="index.html" class="menu-link">
+                                <i
+                                    class="menu-icon tf-icons bx bx-home-circle"></i>
+                                <div>Tổng Quan</div>
+                            </a>
+                        </li>
+
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">Quản Lý Cửa
+                                Hàng</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="javascript:void(0);"
+                                class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-group"></i>
+                                <div>Nhân sự</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="list-employee.html"
+                                        class="menu-link">
+                                        <div>Danh sách Nhân viên</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="add-employee.html"
+                                        class="menu-link">
+                                        <div>Thêm/Cập nhật Hồ sơ</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="javascript:void(0);"
+                                class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-cake"></i>
+                                <div>Kho Sản phẩm</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="list-product.html"
+                                        class="menu-link">
+                                        <div>Danh sách Sản phẩm</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="add-product.html"
+                                        class="menu-link">
+                                        <div>Thêm/Cập nhật Sản phẩm</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="javascript:void(0);"
+                                class="menu-link menu-toggle">
+                                <i
+                                    class="menu-icon tf-icons bx bx-user-pin"></i>
+                                <div>Khách hàng</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="list-customer.html"
+                                        class="menu-link">
+                                        <div>Danh sách Khách hàng</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="add-customer.html"
+                                        class="menu-link">
+                                        <div>Thêm mới Khách hàng</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="javascript:void(0);"
+                                class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-gift"></i>
+                                <div>Khuyến mãi</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="list-khuyenMai.html"
+                                        class="menu-link">
+                                        <div>Danh sách Khuyến mãi</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="add-khuyenMai.html"
+                                        class="menu-link">
+                                        <div>Thêm mới Khuyến mãi</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item">
+                            <a href="javascript:void(0);"
+                                class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-receipt"></i>
+                                <div>Đơn hàng</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="list-order.html" class="menu-link">
+                                        <div>Danh sách Đơn hàng</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="add-order.html" class="menu-link">
+                                        <div>Thêm mới Đơn hàng</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">Hệ Thống</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="auth-login-basic.html" class="menu-link"
+                                onclick="localStorage.clear();">
+                                <i
+                                    class="menu-icon tf-icons bx bx-power-off text-danger"></i>
+                                <div class="text-danger">Đăng Xuất</div>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+                <div class="layout-page">
+                    <nav
+                        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                        id="layout-navbar">
+                        <div
+                            class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                            <a class="nav-item nav-link px-0 me-xl-4"
+                                href="javascript:void(0)">
+                                <i class="bx bx-menu bx-sm"></i>
+                            </a>
+                        </div>
+
+                        <div class="navbar-nav-right d-flex align-items-center"
+                            id="navbar-collapse">
+                            <!-- Search -->
+                            <div class="navbar-nav align-items-center">
+                                <div class="nav-item d-flex align-items-center">
+
+                                </div>
+                            </div>
+                            <!-- /Search -->
+
+                            <ul
+                                class="navbar-nav flex-row align-items-center ms-auto">
+
+                                <!-- User -->
+                                <li
+                                    class="nav-item navbar-dropdown dropdown-user dropdown">
+                                    <a
+                                        class="nav-link dropdown-toggle hide-arrow"
+                                        href="javascript:void(0);"
+                                        data-bs-toggle="dropdown">
+                                        <div class="avatar avatar-online">
+                                            <img src="assets/img/avatars/1.png"
+                                                alt
+                                                class="w-px-40 h-auto rounded-circle" />
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="javascript:void(0);">
+                                                <div class="d-flex">
+                                                    <div
+                                                        class="flex-shrink-0 me-3">
+                                                        <div
+                                                            class="avatar avatar-online">
+                                                            <img
+                                                                src="assets/img/avatars/1.png"
+                                                                alt
+                                                                class="w-px-40 h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <span
+                                                            class="fw-semibold d-block"
+                                                            id="navUserFullName">Đang
+                                                            nạp...</span>
+                                                        <small
+                                                            class="text-muted"
+                                                            id="navUserRole">Nhân
+                                                            viên</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-divider"></div>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                                id="navAccountSettings"
+                                                href="javascript:void(0);">
+                                                <i class="bx bx-cog me-2"></i>
+                                                <span class="align-middle">Cài
+                                                    Đặt Tài Khoản</span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-divider"></div>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger"
+                                                href="auth-login-basic.html"
+                                                onclick="localStorage.clear();">
+                                                <i
+                                                    class="bx bx-power-off me-2"></i>
+                                                <span
+                                                    class="align-middle fw-bold">Đăng
+                                                    Xuất</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="content-wrapper">
+                        <div class="container-xxl flex-grow-1 container-p-y">
+
+                            <div class="row mb-4 align-items-center">
+                                <div
+                                    class="col-md-9 d-flex gap-2 flex-wrap align-items-center">
+                                    <ul class="nav nav-pills" role="tablist">
+                                        <li
+                                            class="nav-item mb-1 mb-md-0"><button
+                                                type="button"
+                                                class="nav-link active"
+                                                id="btnTabAll"
+                                                onclick="filterByType('all')">Tất
+                                                cả đơn</button></li>
+                                        <li
+                                            class="nav-item mb-1 mb-md-0"><button
+                                                type="button" class="nav-link"
+                                                id="btnTabThuong"
+                                                onclick="filterByType('standard')"><i
+                                                    class="bx bx-package me-1"></i>Đơn
+                                                Tiêu Chuẩn</button></li>
+                                        <li
+                                            class="nav-item mb-1 mb-md-0"><button
+                                                type="button" class="nav-link"
+                                                id="btnTabCustom"
+                                                onclick="filterByType('custom')"><i
+                                                    class="bx bx-paint-roll me-1"></i>Đơn
+                                                Đặt Custom</button></li>
+                                    </ul>
+
+                                    <select
+                                        class="form-select d-inline-block w-auto ms-md-2"
+                                        id="filterStatus"
+                                        onchange="filterByStatus()">
+                                        <option value="All">--- Tất cả trạng
+                                            thái ---</option>
+                                        <option value="Chờ xử lý">Chờ xử
+                                            lý</option>
+                                        <option value="Đã duyệt">Đã
+                                            duyệt</option>
+                                        <option value="Đang chuẩn bị">Đang chuẩn
+                                            bị</option>
+                                        <option value="Hoàn thành">Hoàn
+                                            thành</option>
+                                        <option value="Đã giao/Đã thanh toán">Đã
+                                            giao/Đã thanh toán</option>
+                                        <option value="Đã hủy">Đã hủy</option>
+                                    </select>
+                                    <div
+                                        class="input-group input-group-merge ms-md-2"
+                                        style="width: 250px;">
+                                        <span class="input-group-text"><i
+                                                class="bx bx-search"></i></span>
+                                        <input type="text" id="searchOrderInput"
+                                            class="form-control"
+                                            placeholder="Tìm mã đơn, tên khách..."
+                                            onkeyup="executeCombinedFilter()" />
+                                    </div>
+                                    <a href="add-order.html"
+                                        class="btn btn-primary ms-md-2"><i
+                                            class="bx bx-plus me-1"></i>Tạo Đơn
+                                        Mới</a>
+                                </div>
+
+                                <div
+                                    class="col-md-3 text-md-end text-start mt-2 mt-md-0">
+                                    <select
+                                        class="form-select d-inline-block w-auto"
+                                        id="sortOrder" onchange="sortOrders()">
+                                        <option value="newest">Mới nhất</option>
+                                        <option value="oldest">Cũ nhất</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-4" id="gridAllOrders"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="orderDetailModal" tabindex="-1"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold text-primary"
+                            id="modalOrderTitle">Chi Tiết Đơn Hàng</h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2 mb-3">
+                            <div class="col"><label
+                                    class="form-label fw-semibold">Người Nhận
+                                    Hàng</label><input type="text"
+                                    id="modalTenNguoiNhan" class="form-control"
+                                    readonly /></div>
+                            <div class="col"><label
+                                    class="form-label fw-semibold">Số Điện
+                                    Thoại</label><input type="text"
+                                    id="modalSdtNguoiNhan" class="form-control"
+                                    readonly /></div>
+                        </div>
+                        <div class="mb-3"><label
+                                class="form-label fw-semibold">Địa Chỉ Giao
+                                Hàng</label><textarea id="modalDiaChiGiao"
+                                class="form-control" rows="2"
+                                readonly></textarea></div>
+
+                        <div class="mb-3 border-top pt-3">
+                            <h6 class="text-primary fw-bold mb-2"><i
+                                    class="bx bx-cake me-1"></i> DANH SÁCH MÓN
+                                ĐÃ ĐẶT</h6>
+                            <div class="table-responsive border rounded"
+                                style="max-height: 200px; overflow-y: auto;">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="table-light sticky-top">
+                                        <tr><th>Ảnh</th><th>Tên Sản Phẩm</th><th
+                                                class="text-center">SL</th><th>Đơn
+                                                Giá</th></tr>
+                                    </thead>
+                                    <tbody id="modalProductsTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col"><label
+                                    class="form-label fw-semibold">Tổng Tiền
+                                    Thanh Toán</label><input type="text"
+                                    id="modalTongTien"
+                                    class="form-control fw-bold text-success"
+                                    readonly /></div>
+                            <div class="col"><label
+                                    class="form-label fw-semibold">Ngày Tạo
+                                    Đơn</label><input type="text"
+                                    id="modalNgayDat" class="form-control"
+                                    readonly /></div>
+                        </div>
+
+                        <div id="modalCustomSection" style="display: none;">
+                            <hr class="my-4 border-warning border-dashed">
+                            <h6 class="fw-bold text-warning mb-3"><i
+                                    class="bx bx-paint-roll me-1"></i> YÊU CẦU
+                                ĐẶT BÁNH CUSTOM</h6>
+
+                            <div
+                                class="mb-3 p-2 bg-label-success rounded border border-success">
+                                <label
+                                    class="form-label fw-bold text-success mb-1">💰
+                                    BÁO GIÁ BÁNH CUSTOM</label>
+                                <input type="text"
+                                    class="form-control text-success fw-bold border-0 bg-transparent px-0"
+                                    id="modalBaoGiaCustom" readonly value="0 đ"
+                                    style="font-size: 1.1rem;" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label
+                                    class="form-label text-warning text-uppercase"
+                                    style="font-size: 0.75rem;">Hình Ảnh Mẫu
+                                    Khách Gửi</label>
+                                <div id="modalCustomImgContainer"
+                                    class="text-center p-2 border rounded bg-white">
+                                </div>
+                            </div>
+                            <div class="mb-3"><label
+                                    class="form-label fw-semibold">Loại Yêu Cầu
+                                    / Tên Bánh</label><input type="text"
+                                    id="modalLoaiYeuCau" class="form-control"
+                                    readonly /></div>
+                            <div class="row g-2 mb-3">
+                                <div class="col"><label
+                                        class="form-label fw-semibold">Kích
+                                        Thước / Số Lượng</label><input
+                                        type="text" id="modalKichThuoc"
+                                        class="form-control" readonly /></div>
+                                <div class="col"><label
+                                        class="form-label fw-semibold">Màu Sắc
+                                        Chủ Đạo</label><input type="text"
+                                        id="modalMauSac" class="form-control"
+                                        readonly /></div>
+                            </div>
+                            <div class="mb-3"><label
+                                    class="form-label fw-semibold">Mô Tả Kiểu
+                                    Dáng / Lời Chúc</label><textarea
+                                    id="modalGhiChuCustom" class="form-control"
+                                    rows="2" readonly></textarea></div>
+                            <div class="mb-3"><label
+                                    class="form-label fw-semibold">Ngày Hẹn Lấy
+                                    Bánh</label><input type="text"
+                                    id="modalNgayLay"
+                                    class="form-control text-danger fw-bold"
+                                    readonly /></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">Đóng</button></div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/js/api-config.js"></script>
+
+        <script src="assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="assets/vendor/js/bootstrap.js"></script>
+        <script src="assets/vendor/js/menu.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="assets/js/order-grid.js"></script>
+    </body>
+</html>

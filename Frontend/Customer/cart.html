@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giỏ Hàng - Smart Computer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+      /* Responsive cho giao diện điện thoại nếu cần */
+      @media (max-width: 768px) {
+          #cart-layout { grid-template-columns: 1fr !important; }
+          .cart-item-row { flex-direction: column; text-align: center; }
+          .cart-item-row img { margin: 0 auto; }
+          .cart-item-price { text-align: center !important; }
+      }
+  </style>
+  </head>
+
+  <body>
+    <!-- Header (Giữ nguyên như trang chủ) -->
+    <header class="site-header">
+      <div class="container">
+        <a href="index.html" class="brand">
+          <span class="brand-mark" style="background:var(--indigo)">S</span>
+          Smart Computer
+        </a>
+        <div class="icon-row">
+          <a href="cart.html" class="icon-btn icon-btn--cart">
+            🛒 <span class="count" style="background:red; color:white;">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+      <div class="container">
+        <a href="shop.html" class="all-cats">☰ Xem Tất Cả Danh Mục</a>
+        <div class="main-nav">
+        <a href="index.html">Trang Chủ</a>
+        <a href="shop.html">Cửa Hàng</a>
+        <a href="cart.html">Giỏ Hàng</a>
+        <a href="contact.html">Liên Hệ</a>
+      </div>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="page-head">
+        <div class="container">
+          <div class="crumbs"><a href="index.html">Trang Chủ</a> <span
+              class="sep">›</span> <span>Giỏ hàng</span></div>
+          <h1>Giỏ hàng của bạn</h1>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <!-- Bố cục Giỏ hàng (2 cột) -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;"
+            id="cart-layout">
+
+            <!-- CỘT TRÁI: DANH SÁCH SẢN PHẨM -->
+            <div id="cart-items-container">
+              <!-- Giao diện trống sẽ hiện "Đang tải" nhanh rồi chuyển sang JS -->
+            </div>
+
+            <!-- CỘT PHẢI: TỔNG TIỀN & THANH TOÁN -->
+            <aside id="cart-summary-container"
+              style="background: var(--paper); padding: 30px; border-radius: 12px; height: fit-content; border: 1px solid #eee; display:none;">
+              <h3 style="margin-bottom: 25px; font-size: 22px;">Tóm tắt đơn
+                hàng</h3>
+
+              <div
+                style="display:flex; justify-content:space-between; margin-bottom: 15px; font-size: 16px;">
+                <span style="color:gray;">Tạm tính</span>
+                <strong id="subtotal">0 đ</strong>
+              </div>
+
+              <div id="cart-discount-row" style="display:none; justify-content:space-between; margin-bottom: 15px; font-size: 16px;">
+                <span style="color:var(--primary);">Giảm giá</span>
+                <strong id="cart-discount" style="color:var(--primary);">-0 đ</strong>
+              </div>
+
+              <div
+                style="display:flex; justify-content:space-between; margin-bottom: 25px; font-size: 16px;">
+                <span style="color:gray;">Phí giao hàng</span>
+                <strong style="color: var(--emerald);">Miễn phí</strong>
+              </div>
+
+              <hr
+                style="border: 0; border-top: 1px dashed #ccc; margin-bottom: 20px;">
+
+              <div
+                style="display:flex; justify-content:space-between; margin-bottom: 30px; font-size: 24px;">
+                <strong>Tổng cộng</strong>
+                <strong id="total" style="color: var(--indigo);">0 đ</strong>
+              </div>
+
+              <!-- NÚT CHUYỂN SANG TRANG THANH TOÁN -->
+              <a href="checkout.html" class="btn btn--indigo btn--block"
+                style="padding:16px; font-size:16px; font-weight:bold;">Tiến
+                hành Thanh toán →</a>
+
+              <p
+                style="text-align:center; color:gray; font-size:12px; margin-top:15px;">Hỗ
+                trợ thanh toán tiền mặt & chuyển khoản</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-bottom"
+          style="display:flex; justify-content:space-between; align-items:center;">
+          <span>© 2026 Smart Computer · All rights reserved</span>
+          <span>Đồ án Báo Cáo Giữa Kỳ</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/store.js?v=7" defer></script>
+    <script src="assets/js/cart.js?v=7" defer></script>
+  </body>
+</html>

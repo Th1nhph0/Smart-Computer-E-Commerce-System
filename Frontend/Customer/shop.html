@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cửa Hàng - Smart Computer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="index.html" class="brand">
+          <span class="brand-mark" style="background:var(--indigo)">S</span>
+          Smart Computer
+        </a>
+        <form class="search" role="search"
+          onsubmit="event.preventDefault(); window.location.href='shop.html?search=' + this.querySelector('input').value;">
+          <input type="text" placeholder="Tìm kiếm máy tính, linh kiện..." />
+          <button type="submit">🔍</button>
+        </form>
+        <div class="icon-row">
+          <a href="account.html" class="icon-btn">👤</a>
+          <a href="cart.html" class="icon-btn icon-btn--cart">
+            🛒 <span class="count" style="background:red; color:white;">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+      <div class="container">
+        <a href="shop.html" class="all-cats">☰ Xem Tất Cả Danh Mục</a>
+        <div class="main-nav">
+        <a href="index.html">Trang Chủ</a>
+        <a href="shop.html">Cửa Hàng</a>
+        <a href="cart.html">Giỏ Hàng</a>
+        <a href="contact.html">Liên Hệ</a>
+      </div>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="page-head">
+        <div class="container">
+          <div class="crumbs"><a href="index.html">Trang Chủ</a> <span
+              class="sep">›</span> <span>Cửa Hàng</span></div>
+          <h1>Tất cả Sản phẩm</h1>
+          <p>Khám phá thế giới công nghệ với hàng trăm mẫu Laptop, PC, Linh kiện
+            và Phụ kiện cao cấp nhất.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="shop-layout">
+
+            <!-- BỘ LỌC (SIDEBAR) -->
+            <aside class="filters" aria-label="Filters">
+              <div class="filter-block">
+                <h3>Lọc theo Danh mục</h3>
+                <div id="category-filters">
+                  <!-- JS sẽ tự động bóc tách danh mục từ DB và thả Checkbox vào đây -->
+                  <p style="color:gray; font-size:12px;">Đang tải danh
+                    mục...</p>
+                </div>
+              </div>
+
+              <div class="filter-block">
+                <h3>Trạng thái</h3>
+                <label><input type="checkbox" checked> Còn hàng</label>
+                <label><input type="checkbox"> Đang khuyến mãi</label>
+              </div>
+            </aside>
+
+            <!-- DANH SÁCH SẢN PHẨM -->
+            <div>
+              <div class="shop-toolbar">
+                <span class="count" id="product-count">Đang hiển thị 0 sản
+                  phẩm</span>
+                <div style="display:flex; gap:var(--s3); align-items:center">
+                  <span
+                    style="font-size:var(--text-xs); color:var(--fg-mute); font-family:var(--ff-mono)">SẮP
+                    XẾP</span>
+                  <select id="sort-select" onchange="applyFilters()">
+                    <option value="newest">Mới nhất</option>
+                    <option value="price_asc">Giá: Thấp đến Cao</option>
+                    <option value="price_desc">Giá: Cao đến Thấp</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="shop-grid" id="shop-grid">
+                <!-- Data từ C# sẽ phi vào đây -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-bottom"
+          style="display:flex; justify-content:space-between; align-items:center;">
+          <span>© 2026 Smart Computer · All rights reserved</span>
+          <span>Đồ án Báo Cáo Giữa Kỳ</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/store.js?v=7" defer></script>
+    <script src="assets/js/shop.js?v=7" defer></script>
+  </body>
+</html>
