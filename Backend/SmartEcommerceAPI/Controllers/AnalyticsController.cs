@@ -29,13 +29,11 @@ namespace SmartEcommerceAPI.Controllers
             int currentCategoryId = product.CategoryId;
 
             // Chạy Apriori (ngầm) hoặc dùng kết quả được cache (ở đây tính toán trực tiếp cho đơn giản)
-            var validOrderIds = await _context.Orders
-                .Where(o => o.OrderStatus != "Đã hủy" && o.OrderStatus != "Chờ xử lý")
-                .Select(o => o.OrderId)
-                .ToListAsync();
-
+            // Lấy order details trực tiếp bằng subquery để tránh IN clause quá lớn
             var orderDetails = await _context.OrderDetails
-                .Where(od => od.OrderId.HasValue && validOrderIds.Contains(od.OrderId.Value) && od.ProductId.HasValue)
+                .Where(od => od.OrderId.HasValue && 
+                             _context.Orders.Any(o => o.OrderId == od.OrderId && o.OrderStatus != "Đã hủy" && o.OrderStatus != "Chờ xử lý") && 
+                             od.ProductId.HasValue)
                 .Select(od => new { OrderId = od.OrderId.Value, CategoryId = od.Product.CategoryId })
                 .ToListAsync();
 
@@ -133,16 +131,15 @@ namespace SmartEcommerceAPI.Controllers
         [HttpGet("ProductAssociations")]
         public async Task<IActionResult> GetProductAssociations([FromQuery] double minSupport = 0.01, [FromQuery] double minConfidence = 0.1)
         {
-            var validOrderIds = await _context.Orders
-                .Where(o => o.OrderStatus != "Đã hủy" && o.OrderStatus != "Chờ xử lý")
-                .Select(o => o.OrderId)
-                .ToListAsync();
+            // Kiểm tra xem có order nào hợp lệ không trước khi join
+            bool hasValidOrders = await _context.Orders.AnyAsync(o => o.OrderStatus != "Đã hủy" && o.OrderStatus != "Chờ xử lý");
+            if (!hasValidOrders) return Ok(new { message = "Không đủ dữ liệu giao dịch." });
 
-            if (validOrderIds.Count == 0) return Ok(new { message = "Không đủ dữ liệu giao dịch." });
-
-            // Lấy danh mục thay vì sản phẩm (Join OrderDetails -> Product -> Category)
+            // Lấy danh mục thay vì sản phẩm (Join OrderDetails -> Product -> Category) bằng subquery
             var orderDetails = await _context.OrderDetails
-                .Where(od => od.OrderId.HasValue && validOrderIds.Contains(od.OrderId.Value) && od.ProductId.HasValue)
+                .Where(od => od.OrderId.HasValue && 
+                             _context.Orders.Any(o => o.OrderId == od.OrderId && o.OrderStatus != "Đã hủy" && o.OrderStatus != "Chờ xử lý") && 
+                             od.ProductId.HasValue)
                 .Select(od => new {
                     OrderId = od.OrderId.Value,
                     CategoryId = od.Product.CategoryId,

@@ -35,7 +35,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const orders = await response.json();
+        let orders = await response.json();
+        // Handle ASP.NET Core ReferenceHandler.Preserve format
+        if (orders && orders.$values) {
+            orders = orders.$values;
+        }
 
         let tongDoanhThuThucTe = 0;
         let tongSoLuongDonHang = orders.length;
@@ -43,7 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         let vChoXuLy = 0; let vDaDuyet = 0; let vDangLam = 0;
         let vHoanThanh = 0; let vDaHuy = 0; let vDaGiao = 0;
 
-        orders.forEach(dh => {
+        if (Array.isArray(orders)) {
+            orders.forEach(dh => {
             const trangThai = (dh.orderStatus || 'Chờ xử lý').trim();
             const soTien = dh.totalAmount || 0;
 
@@ -69,8 +74,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else {
                     vChoXuLy++;
                 }
-            }
-        });
+            } // Added missing closing brace
+            });
+        }
 
         if (txtDoanhThu) txtDoanhThu.innerText = new Intl.NumberFormat('vi-VN').format(tongDoanhThuThucTe) + ' đ';
         if (txtDonHang) txtDonHang.innerText = new Intl.NumberFormat('vi-VN').format(tongSoLuongDonHang) + ' đơn';
@@ -228,7 +234,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     let htmlK = `<div class="table-responsive"><table class="table table-sm table-bordered">
                         <thead class="table-light"><tr><th>Cụm</th><th>Mô tả</th><th>SL Khách</th></tr></thead><tbody>`;
                     
-                    const segments = dataK.segments || dataK.Segments || [];
+                    let segments = dataK.segments || dataK.Segments || [];
+                    if (dataK && dataK.$values) segments = dataK.$values;
+                    if (segments.$values) segments = segments.$values;
+                    
                     segments.forEach(c => {
                         let badge = 'bg-secondary';
                         let desc = 'Khách hàng';
@@ -262,12 +271,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const resA = await fetch(`${API_URL}/api/Analytics/ProductAssociations`);
                 if (resA.ok) {
-                    const dataA = await resA.json();
-                    if (((dataA.rules && dataA.rules.length > 0) || (dataA.Rules && dataA.Rules.length > 0))) {
+                    let dataA = await resA.json();
+                    let rules = dataA.rules || dataA.Rules || [];
+                    if (dataA && dataA.$values) rules = dataA.$values;
+                    if (rules.$values) rules = rules.$values;
+
+                    if (rules && rules.length > 0) {
                         let htmlA = `<div class="table-responsive"><table class="table table-sm table-hover border">
                             <thead class="table-light"><tr><th>Luật kết hợp (Khi mua X -> Gợi ý Y)</th><th>Độ tin cậy</th></tr></thead><tbody>`;
                         
-                        const rules = dataA.rules || dataA.Rules || [];
                         rules.slice(0, 5).forEach(r => {
                             let confidence = (r.confidence !== undefined ? r.confidence : r.Confidence);
                             let antName = (r.antecedentName || r.AntecedentName || 'Danh mục A');

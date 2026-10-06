@@ -1,0 +1,36 @@
+<title>Tạo Hóa Đơn - Smart Computer</title>
+<!-- Fonts & Core CSS -->
+href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+<!-- Select2 CSS -->
+<!-- Config JS -->
+<!-- MENU TRÁI (SIDEBAR) -->
+class="app-brand-text demo menu-text fw-bolder ms-2">SMART
+Sản phẩm</div></a>
+class="menu-link"><div>Danh sách Sản
+class="menu-link"><div>Thêm/Cập nhật Sản
+<!-- MENU ĐƠN HÀNG (MỞ SẴN) -->
+onclick="localStorage.clear();">
+<!-- NỘI DUNG CHÍNH -->
+onclick="localStorage.clear();"><i
+<!-- THÔNG TIN KHÁCH HÀNG -->
+for="sdtNguoiNhan">Số Điện
+placeholder="Số nhà, Tên đường, Phường, Quận, Thành phố..."
+<!-- GIỎ HÀNG SẢN PHẨM -->
+CHỌN SẢN PHẨM VÀO GIỎ HÀNG</h6>
+id="selectSanPham">
+<label class="form-label">Số
+id="inputSoLuong"
+<th>Tên Sản
+style="width: 15%">Số
+<!-- TÙY CHỌN CUSTOM BUILD PC -->
+BIỆT (CUSTOM BUILD PC)
+THÔNG TIN KHÁCH YÊU CẦU TƯ VẤN
+Cầu Sử Dụng
+for="customNganSach">Ngân
+Sách Dự Kiến (Khoảng
+id="customNganSach"
+placeholder="Ví dụ: Thích Case bể cá màu trắng, Tản nhiệt nước, Cần nhiều cổng USB..." />
+Ảnh Linh Kiện Cũ Có Sẵn
+<small id="uploadStatus"
+Soạn Hàng (Nội
+<!-- CÁC FILE SCRIPT (ĐÃ ĐƯỢC CHUẨN HÓA) -->

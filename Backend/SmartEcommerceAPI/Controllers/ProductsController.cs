@@ -245,14 +245,14 @@ namespace SmartEcommerceAPI.Controllers
 
             int currentCategoryId = product.CategoryId;
 
-            // 1. Lấy OrderId của những đơn hàng CÓ chứa sản phẩm thuộc danh mục của sản phẩm này
-            var orderIdsWithCategory = await _context.OrderDetails
-                .Where(od => od.Product != null && od.Product.CategoryId == currentCategoryId)
-                .Select(od => od.OrderId)
-                .Distinct()
+            // 1 & 2. Lấy OrderDetails cùng CategoryId mà không dùng Contains
+            var relatedOrderDetails = await _context.OrderDetails
+                .Where(od => od.OrderId != null && od.Product != null &&
+                             _context.OrderDetails.Any(inner => inner.OrderId == od.OrderId && inner.Product != null && inner.Product.CategoryId == currentCategoryId))
+                .Select(od => new { od.OrderId, CategoryId = od.Product.CategoryId })
                 .ToListAsync();
 
-            if (orderIdsWithCategory.Count == 0)
+            if (relatedOrderDetails.Count == 0)
             {
                 var fallback = await _context.Products
                     .Where(p => p.CategoryId != currentCategoryId && p.CurrentStock > 0 && p.Status == true)
@@ -264,18 +264,12 @@ namespace SmartEcommerceAPI.Controllers
                         p.Price,
                         ImageUrl = p.ProductImages.Select(pi => pi.ImageUrl).FirstOrDefault(),
                         p.CurrentStock,
-                        Reason = "🔥 Xả Kho - Giá Sốc",
+                        Reason = "🎁 Xả Kho - Giá Sốc",
                         DiscountPercent = 15
                     })
                     .ToListAsync();
                 return Ok(fallback);
             }
-
-            // 2. Lấy tất cả OrderDetails của các đơn hàng trên, map sang CategoryId
-            var relatedOrderDetails = await _context.OrderDetails
-                .Where(od => od.OrderId != null && orderIdsWithCategory.Contains(od.OrderId.Value) && od.Product != null)
-                .Select(od => new { od.OrderId, CategoryId = od.Product.CategoryId })
-                .ToListAsync();
 
             // 3. Xây dựng danh sách transactions
             var transactions = relatedOrderDetails
@@ -315,10 +309,10 @@ namespace SmartEcommerceAPI.Controllers
             }
 
             // 6. Trả về sản phẩm thuộc danh mục gợi ý
-            var recommendedProducts = await _context.Products
+            var recommendedProductsDb = await _context.Products
                 .Where(p => recommendedCategoryIds.Contains(p.CategoryId) && p.ProductId != id && p.Status == true && p.CurrentStock > 0)
-                .OrderBy(p => Guid.NewGuid())
-                .Take(4)
+                .OrderByDescending(p => p.ProductId)
+                .Take(20)
                 .Select(p => new {
                     p.ProductId,
                     p.ProductName,
@@ -329,6 +323,11 @@ namespace SmartEcommerceAPI.Controllers
                     DiscountPercent = 10
                 })
                 .ToListAsync();
+
+            var recommendedProducts = recommendedProductsDb
+                .OrderBy(x => Guid.NewGuid())
+                .Take(4)
+                .ToList();
 
             if (recommendedProducts.Count < 4)
             {
