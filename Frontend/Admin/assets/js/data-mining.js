@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchClusterData() {
     try {
-        const response = await fetch('https://localhost:7068/api/Analytics/CustomerSegments?k=3');
+        const response = await fetch(`${API_URL}/api/Analytics/CustomerSegments?k=3`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

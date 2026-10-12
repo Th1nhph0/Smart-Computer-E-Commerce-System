@@ -1,4 +1,4 @@
-const SHOP_API_URL = 'http://localhost:5076/api/Products'; // NHỚ SỬA ĐÚNG CỔNG
+const SHOP_API_URL = 'https://localhost:7068/api/Products';
 let allShopProducts = [];
 let currentFilteredList = [];
 
@@ -130,12 +130,12 @@ function renderPage() {
         const priceFormatted = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(priceValue);
 
         // Thêm loading="lazy" để tăng tốc độ nạp ảnh cực độ
-                let r = Math.round(p.averageRating || 0);
+        let r = Math.round(p.averageRating || 0);
         let starsHtml = '';
-        for(let i=1; i<=5; i++) { starsHtml += (i<=r) ? '★' : '☆'; }
+        for (let i = 1; i <= 5; i++) { starsHtml += (i <= r) ? '★' : '☆'; }
         const revCount = p.reviewCount || 0;
         const sales = p.totalSales || 0;
-        
+
         html += `
         <article class="product-card">
           <div class="img-wrap">

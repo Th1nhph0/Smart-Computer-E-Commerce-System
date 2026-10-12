@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // BƯỚC 1: GỬI OTP (GIẢ LẬP)
 function sendOTP(e) {
     e.preventDefault();
+    alert("Password reset is disabled until server-side SMS or email OTP is configured. Please contact an administrator.");
+    return;
     currentPhone = document.getElementById("phoneInput").value.trim();
 
     // Sinh mã OTP ngẫu nhiên 6 số

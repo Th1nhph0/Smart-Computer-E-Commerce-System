@@ -32,6 +32,8 @@ namespace SmartEcommerceAPI.Controllers
                 {
                     p.ProductId,
                     p.ProductName,
+                    p.Sku,           // BỔ SUNG LẤY MÃ SKU TỪ DB
+                    p.Status,        // BỔ SUNG LẤY TRẠNG THÁI TỪ DB
                     p.Price,
                     p.CurrentStock,
                     categoryId = p.Category != null ? (int?)p.Category.CategoryId : null,
@@ -52,10 +54,10 @@ namespace SmartEcommerceAPI.Controllers
             var reviewStats = await _context.Reviews
                 .Where(r => r.ProductId != null && productIds.Contains(r.ProductId.Value))
                 .GroupBy(r => r.ProductId.Value)
-                .Select(g => new { 
-                    ProductId = g.Key, 
-                    ReviewCount = g.Count(), 
-                    AverageRating = g.Average(r => (double?)r.Rating) ?? 0.0 
+                .Select(g => new {
+                    ProductId = g.Key,
+                    ReviewCount = g.Count(),
+                    AverageRating = g.Average(r => (double?)r.Rating) ?? 0.0
                 })
                 .ToDictionaryAsync(g => g.ProductId, g => g);
 
@@ -72,6 +74,8 @@ namespace SmartEcommerceAPI.Controllers
             {
                 productId = p.ProductId,
                 productName = p.ProductName,
+                sku = p.Sku,             // BỔ SUNG TRẢ VỀ JSON CHO FRONT-END
+                status = p.Status,       // BỔ SUNG TRẢ VỀ JSON CHO FRONT-END
                 price = p.Price,
                 currentStock = p.CurrentStock,
                 reviewCount = reviewStats.ContainsKey(p.ProductId) ? reviewStats[p.ProductId].ReviewCount : 0,
@@ -356,7 +360,24 @@ namespace SmartEcommerceAPI.Controllers
         {
             return _context.Products.Any(e => e.ProductId == id);
         }
+        [HttpPut("{id}/Inventory")]
+        public async Task<IActionResult> UpdateInventory(int id, [FromBody] UpdateInventoryDto dto)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
+            // Chỉ cập nhật đúng 2 trường, không đụng chạm đến các dữ liệu khác
+            product.CurrentStock = dto.CurrentStock;
+            product.Status = dto.Status;
+            product.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 
     public class ProductUpdateDto
@@ -372,5 +393,10 @@ namespace SmartEcommerceAPI.Controllers
         public string? Specifications { get; set; }
         public string? Description { get; set; }
         public int? CurrentStock { get; set; }
+    }
+    public class UpdateInventoryDto
+    {
+        public int CurrentStock { get; set; }
+        public bool Status { get; set; }
     }
 }

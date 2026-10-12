@@ -1,4 +1,4 @@
-const DETAIL_API_URL = 'http://localhost:5076/api/Products';
+const DETAIL_API_URL = 'https://localhost:7068/api/Products';
 let currentProduct = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -33,9 +33,9 @@ async function loadProductDetail(id) {
             return;
         }
 
-        const pName = document.getElementById('p-name'); if(pName) pName.textContent = currentProduct.productName || currentProduct.name;
-        const pCat = document.getElementById('p-cat'); if(pCat) pCat.textContent = currentProduct.category?.categoryName || "Product";
-        const pPrice = document.getElementById('p-price'); if(pPrice) pPrice.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentProduct.price || 0);
+        const pName = document.getElementById('p-name'); if (pName) pName.textContent = currentProduct.productName || currentProduct.name;
+        const pCat = document.getElementById('p-cat'); if (pCat) pCat.textContent = currentProduct.category?.categoryName || "Product";
+        const pPrice = document.getElementById('p-price'); if (pPrice) pPrice.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentProduct.price || 0);
 
         const ratingRow = document.querySelector('.rating-row');
         if (ratingRow && currentProduct) {
@@ -43,23 +43,23 @@ async function loadProductDetail(id) {
             const avgRating = revCount > 0 ? (currentProduct.averageRating || 0) : 0;
             const sold = currentProduct.totalSold || 0;
             const stock = currentProduct.currentStock || 0;
-            
+
             const fullStars = Math.floor(avgRating);
             let starsHtml = '';
-            
+
             if (revCount === 0) {
                 starsHtml = '<span style="color:#aaa;">☆</span>';
             } else {
                 for (let i = 0; i < fullStars; i++) starsHtml += 'star';
                 if (avgRating - fullStars >= 0.5) starsHtml += 'star';
                 const currentStars = fullStars + (avgRating - fullStars >= 0.5 ? 1 : 0);
-                for(let i = currentStars; i < 5; i++) starsHtml += '<span style="color:#aaa;">★</span>';
+                for (let i = currentStars; i < 5; i++) starsHtml += '<span style="color:#aaa;">★</span>';
             }
-            
+
             let ratingDisplay = revCount > 0 ? `(${avgRating})` : `(No review)`;
             let stockText = stock > 0 ? `In stock: ${stock}` : `Out of stock`;
             let stockColor = stock > 0 ? 'var(--emerald)' : 'red';
-        
+
             ratingRow.innerHTML = `
                 <span style="color: var(--amber); font-size: 18px">${starsHtml} ${ratingDisplay}</span>
                 <span style="margin-left: 5px; color:#555;">- ${revCount} Reviews</span>
@@ -83,8 +83,8 @@ async function loadProductDetail(id) {
 
         let rawDesc = currentProduct?.description || '';
         if (rawDesc) {
-            const descCont = document.getElementById('p-desc-container'); 
-            if(descCont) {
+            const descCont = document.getElementById('p-desc-container');
+            if (descCont) {
                 descCont.style.display = 'block';
                 const gallery = document.querySelector('.gallery');
                 if (gallery && descCont.parentElement !== gallery.parentElement) {
@@ -101,28 +101,28 @@ async function loadProductDetail(id) {
                     }
                     leftCol.appendChild(descCont);
                 }
-                
+
                 const descBox = document.getElementById('p-desc');
                 if (descBox) descBox.innerHTML = rawDesc;
                 const btn = document.getElementById('btn-toggle-desc');
                 const grad = document.getElementById('p-desc-gradient');
-                
+
                 if (descBox && descBox.scrollHeight > 250) {
-                    if(btn) btn.style.display = 'block';
-                    if(grad) grad.style.display = 'block';
+                    if (btn) btn.style.display = 'block';
+                    if (grad) grad.style.display = 'block';
                 } else {
-                    if(btn) btn.style.display = 'none';
-                    if(grad) grad.style.display = 'none';
+                    if (btn) btn.style.display = 'none';
+                    if (grad) grad.style.display = 'none';
                 }
             }
         } else {
             const descCont = document.getElementById('p-desc-container');
-            if(descCont) descCont.style.display = 'none';
+            if (descCont) descCont.style.display = 'none';
         }
 
         window.imageList = [];
         let defaultImg = currentProduct.imageUrl || 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80';
-        
+
         let thumbsHtml = '';
 
         if (currentProduct.productImages && currentProduct.productImages.length > 0) {
@@ -134,21 +134,21 @@ async function loadProductDetail(id) {
                     window.imageList.push(...urls);
                 }
             });
-            if(window.imageList.length > 0) defaultImg = window.imageList[0];
+            if (window.imageList.length > 0) defaultImg = window.imageList[0];
 
             window.imageList.forEach((u, index) => {
 
                 thumbsHtml += `<button class="thumb-btn ${index === 0 ? 'is-active' : ''}" onclick="changeMainImg(${index})" style="border:1px solid #ddd; border-radius:8px; overflow:hidden; cursor:pointer; padding:0; background:transparent;"><img src="${u}" alt="thumb" style="width:100%; height:100%; object-fit:cover; pointer-events:none;" onerror="this.closest('button').style.display='none'"/></button>`;
             });
-        } 
-        
-        if (!thumbsHtml && defaultImg) { 
-             thumbsHtml = `<button class="thumb-btn is-active" style="border:1px solid #ddd; border-radius:8px; overflow:hidden; padding:0;"><img src="${defaultImg}" alt="thumb" style="width:100%; height:100%; object-fit:cover;" onerror="this.closest('button').style.display='none'"/></button>`;
+        }
+
+        if (!thumbsHtml && defaultImg) {
+            thumbsHtml = `<button class="thumb-btn is-active" style="border:1px solid #ddd; border-radius:8px; overflow:hidden; padding:0;"><img src="${defaultImg}" alt="thumb" style="width:100%; height:100%; object-fit:cover;" onerror="this.closest('button').style.display='none'"/></button>`;
         }
 
         document.getElementById('p-thumbs').innerHTML = thumbsHtml;
         document.getElementById('p-main-img').src = defaultImg;
-        document.getElementById('p-main-img').onerror = function() { this.style.display = 'none'; };
+        document.getElementById('p-main-img').onerror = function () { this.style.display = 'none'; };
 
         window.currentImageIndex = 0;
         if (window.imageInterval) clearInterval(window.imageInterval);
@@ -161,7 +161,7 @@ async function loadProductDetail(id) {
 
     } catch (e) {
         console.error('Loi detail:', e);
-        const pName = document.getElementById('p-name'); 
+        const pName = document.getElementById('p-name');
         if (pName) {
             pName.textContent = "Error: " + e.message;
             pName.style.color = 'red';
@@ -174,7 +174,7 @@ window.changeMainImg = function (index, isAuto = false) {
     window.currentImageIndex = index;
     document.getElementById('p-main-img').src = window.imageList[index];
     document.getElementById('p-main-img').style.display = 'block';
-    
+
     let buttons = document.querySelectorAll('#p-thumbs button');
     buttons.forEach(b => b.classList.remove('is-active'));
     if (buttons[index]) buttons[index].classList.add('is-active');
@@ -279,7 +279,7 @@ window.buyNowFromDetail = function () {
 // --- COMBO XẢ KHO (APRIORI) ---
 async function loadComboRecommendations(id) {
     try {
-        const response = await fetch(`http://localhost:5076/api/Products/${id}/SmartRecommendations`);
+        const response = await fetch(`https://localhost:7068/api/Products/${id}/SmartRecommendations`);
         if (!response.ok) return;
 
         const combos = await response.json();
@@ -296,11 +296,11 @@ function renderComboRecommendations(combos) {
     if (!ctaWrapper) return;
 
     let comboListHtml = '';
-    
+
     combos.forEach(item => {
         const discountPrice = item.price * (1 - (item.discountPercent / 100));
         const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
-        
+
         let oldPriceHtml = item.discountPercent > 0 ? `<span style="text-decoration:line-through; color:#999; font-size:12px;">${formatter.format(item.price)}</span>` : '';
 
         comboListHtml += `
@@ -339,18 +339,18 @@ function renderComboRecommendations(combos) {
     `;
 
     // Avoid injecting multiple times if hot reloaded
-    if(!document.getElementById('combo-recommendations')) {
+    if (!document.getElementById('combo-recommendations')) {
         ctaWrapper.insertAdjacentHTML('beforebegin', comboUI);
     }
 }
 
-window.addComboToCart = function(id, name, price, image, basePrice, discountName) {
+window.addComboToCart = function (id, name, price, image, basePrice, discountName) {
     if (typeof addToCart === 'function') {
         // Thêm sản phẩm chính đang xem vào trước
         if (typeof addToCartFromDetail === 'function') {
             // Tạm thời tắt cái Toast của hàm này để đỡ bị hiện 2 cái cùng lúc
             const oldShowToast = window.showToast;
-            window.showToast = function(){}; 
+            window.showToast = function () { };
             addToCartFromDetail();
             window.showToast = oldShowToast;
         }
@@ -361,30 +361,3 @@ window.addComboToCart = function(id, name, price, image, basePrice, discountName
     }
 }
 
-window.changePdpQty = function (delta) {
-    const qtyInput = document.getElementById('pdp-qty');
-    if (!qtyInput) return;
-    let current = parseInt(qtyInput.value) || 1;
-    current += delta;
-    if (current < 1) current = 1;
-    qtyInput.value = current;
-};
-
-window.addToCartFromDetail = function () {
-    if (currentProduct) {
-        const qtyInput = document.getElementById('pdp-qty');
-        const qty = qtyInput ? parseInt(qtyInput.value) : 1;
-        if (typeof addToCart === 'function') {
-            const price = currentProduct.price || 0;
-            const img = window.imageList && window.imageList.length > 0 ? window.imageList[0] : '';
-            addToCart(currentProduct.productId, currentProduct.productName || currentProduct.name, price, img, price, '', qty);
-        }
-    }
-};
-
-window.buyNowFromDetail = function () {
-    if (currentProduct) {
-        window.addToCartFromDetail();
-        window.location.href = 'checkout.html';
-    }
-};

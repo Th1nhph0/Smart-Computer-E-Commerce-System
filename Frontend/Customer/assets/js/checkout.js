@@ -1,4 +1,4 @@
-const ORDER_API = 'http://localhost:5076/api/Orders';
+const ORDER_API = 'https://localhost:7068/api/Orders';
 
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('checkout-form')) {
@@ -22,15 +22,15 @@ function renderCheckout() {
         const itemBaseTotal = (item.basePrice || item.price) * item.quantity;
         total += itemTotal;
         baseTotal += itemBaseTotal;
-        
+
         const itemBaseFmt = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(itemBaseTotal);
         const itemTotalFmt = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(itemTotal);
-        
-        let oldPriceHtml = (item.basePrice && item.basePrice > item.price) 
-            ? `<span style="text-decoration:line-through; color:gray; font-size:11px; margin-right:5px">${itemBaseFmt}</span>` 
+
+        let oldPriceHtml = (item.basePrice && item.basePrice > item.price)
+            ? `<span style="text-decoration:line-through; color:gray; font-size:11px; margin-right:5px">${itemBaseFmt}</span>`
             : '';
-            
-        let discountBadge = (item.discountName) 
+
+        let discountBadge = (item.discountName)
             ? `<div style="font-size:11px; color:var(--emerald); background:#e6f9e6; padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px;">Mã áp dụng: ${item.discountName}</div>`
             : '';
 
@@ -49,13 +49,13 @@ function renderCheckout() {
     });
 
     document.getElementById('checkout-items').innerHTML = html;
-    
+
     const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
     const discount = baseTotal - total;
-    
+
     document.getElementById('chk-subtotal').textContent = formatter.format(baseTotal);
     document.getElementById('chk-total').textContent = formatter.format(total);
-    
+
     if (discount > 0 && document.getElementById('discount-row')) {
         document.getElementById('discount-row').style.display = 'flex';
         document.getElementById('chk-discount').textContent = "-" + formatter.format(discount);
@@ -78,10 +78,9 @@ window.submitOrder = async function (e) {
 
     let customerId = null;
     const user = JSON.parse(sessionStorage.getItem('loggedInUser'));
-    if (user && user.customerId) {
-        customerId = user.customerId;
+    if (user) {
+        customerId = user.customerId || user.id || user.accountId;
     }
-
     const payload = {
         customerId: customerId,
         fullName: document.getElementById('c-name').value,
@@ -90,7 +89,7 @@ window.submitOrder = async function (e) {
         notes: document.getElementById('c-note').value,
         totalAmount: totalAmount,
         discountAmount: discountAmount,
-        
+
         status: "Chờ xử lý",
         orderDetails: cart.map(item => ({
             productId: item.id,
@@ -106,19 +105,23 @@ window.submitOrder = async function (e) {
             body: JSON.stringify(payload)
         });
 
-        if (!res.ok) throw new Error("Lỗi lưu đơn");
+        if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(errText);
+        }
 
         alert("🎉 Đặt hàng thành công!");
-        
-        // Cập nhật lại address trong session storage để load bên trang profile
-        if (user && !user.address && payload.shippingAddress) {
+
+        // CODE MỚI: Cập nhật đồng bộ toàn bộ Tên, SĐT, Địa chỉ vào Session
+        if (user) {
+            user.fullName = payload.fullName;
+            user.phone = payload.phone;
             user.address = payload.shippingAddress;
             sessionStorage.setItem('loggedInUser', JSON.stringify(user));
         }
 
         localStorage.removeItem('myCart');
-        window.location.href = "account.html"; // Chuyển thẳng tới trang lịch sử đơn hàng luôn cho xịn
-
+        window.location.href = "account.html";
 
     } catch (error) {
         console.error(error);
@@ -137,9 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const nameInput = document.getElementById('c-name');
         const phoneInput = document.getElementById('c-phone');
         const addressInput = document.getElementById('c-address');
-        
-        if(nameInput && user.fullName) nameInput.value = user.fullName;
-        if(phoneInput && user.phone) phoneInput.value = user.phone;
-        if(addressInput && user.address) addressInput.value = user.address;
+
+        if (nameInput && user.fullName) nameInput.value = user.fullName;
+        if (phoneInput && user.phone) phoneInput.value = user.phone;
+        if (addressInput && user.address) addressInput.value = user.address;
     }
 });

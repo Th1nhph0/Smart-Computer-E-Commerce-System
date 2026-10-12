@@ -128,16 +128,21 @@ namespace SmartEcommerceAPI.Controllers
         public class CreateOrderDto
         {
             public int? CustomerId { get; set; }
-            public string FullName { get; set; }
-            public string Phone { get; set; }
-            public string ShippingAddress { get; set; }
-            public string Notes { get; set; }
+            public string? FullName { get; set; }
+            public string? Phone { get; set; }
+            public string? ShippingAddress { get; set; }
+            public string? Notes { get; set; }
             public decimal TotalAmount { get; set; }
             public decimal? DiscountAmount { get; set; }
-            public string Status { get; set; }
-            public List<OrderDetailDto> OrderDetails { get; set; }
-        }
+            public string? Status { get; set; }
 
+            // Thêm các trường hỗ trợ Custom Build PC 
+            public bool? IsCustomOrder { get; set; }
+            public string? CustomNhuCau { get; set; }
+            public string? CustomNganSach { get; set; }
+
+            public List<OrderDetailDto> OrderDetails { get; set; } = new List<OrderDetailDto>();
+        }
         public class OrderDetailDto
         {
             public int ProductId { get; set; }
@@ -145,35 +150,57 @@ namespace SmartEcommerceAPI.Controllers
             public decimal UnitPrice { get; set; }
         }
 
+
+
+        // POST: api/Orders
         // POST: api/Orders
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder([FromBody] CreateOrderDto dto)
         {
+            if (dto.OrderDetails == null || !dto.OrderDetails.Any())
+            {
+                return BadRequest("Đơn hàng phải có ít nhất 1 sản phẩm.");
+            }
+
+            // 1. KIỂM TRA LỖI KHÓA NGOẠI (THỦ PHẠM CHÍNH GÂY SẬP ĐƠN HÀNG)
+            int? validCustomerId = dto.CustomerId;
+            if (validCustomerId.HasValue && validCustomerId.Value > 0)
+            {
+                // Check xem trong Database có ông Khách hàng này thật không
+                var customerExists = await _context.Customers.AnyAsync(c => c.CustomerId == validCustomerId.Value);
+                if (!customerExists)
+                {
+                    validCustomerId = null; // Tránh lỗi khóa ngoại: Ép về Khách vãng lai
+                }
+            }
+
             var order = new Order
             {
-                CustomerId = dto.CustomerId,
+                CustomerId = validCustomerId,
                 OrderDate = DateTime.Now,
                 TotalAmount = dto.TotalAmount,
                 DiscountAmount = dto.DiscountAmount,
-                OrderStatus = dto.Status,
-                OrderDetails = dto.OrderDetails.Select(od => new OrderDetail
-                {
-                    ProductId = od.ProductId,
-                    Quantity = od.Quantity,
-                    UnitPrice = od.UnitPrice
-                }).ToList(),
+                OrderStatus = string.IsNullOrEmpty(dto.Status) ? "Chờ xử lý" : dto.Status,
+
                 ShippingDetail = new ShippingDetail
                 {
                     ReceiverName = dto.FullName,
                     ReceiverPhone = dto.Phone,
                     ShippingAddress = dto.ShippingAddress
-                }
+                },
+
+                OrderDetails = dto.OrderDetails.Select(od => new OrderDetail
+                {
+                    ProductId = od.ProductId,
+                    Quantity = od.Quantity,
+                    UnitPrice = od.UnitPrice
+                }).ToList()
             };
 
-            // Update Customer Address if it's missing
-            if (dto.CustomerId.HasValue && dto.CustomerId.Value > 0)
+            // 2. Cập nhật địa chỉ cho Customer thật (nếu có)
+            if (validCustomerId.HasValue)
             {
-                var customer = await _context.Customers.FindAsync(dto.CustomerId.Value);
+                var customer = await _context.Customers.FindAsync(validCustomerId.Value);
                 if (customer != null && string.IsNullOrEmpty(customer.Address))
                 {
                     customer.Address = dto.ShippingAddress;
@@ -181,10 +208,19 @@ namespace SmartEcommerceAPI.Controllers
                 }
             }
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Trả về lỗi cực kỳ chi tiết để Frontend in ra
+                var errorMsg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return StatusCode(500, new { message = $"Lỗi Database: {errorMsg}" });
+            }
 
-            return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
+            return Ok(new { message = "Tạo đơn hàng thành công!", orderId = order.OrderId });
         }
 
 

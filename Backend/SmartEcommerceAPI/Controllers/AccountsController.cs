@@ -80,6 +80,11 @@ namespace SmartEcommerceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
+            bool exists = await _context.Accounts.AnyAsync(a => a.Username == account.Username || a.Email == account.Email);
+            if (exists)
+            {
+                return BadRequest(new { message = "Số điện thoại hoặc Email này đã tồn tại trong hệ thống!" });
+            }
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 
@@ -122,7 +127,8 @@ namespace SmartEcommerceAPI.Controllers
 
             // Truy vấn linh hoạt: Tìm trong Account (Email) HOẶC tìm trong Customer (Phone)
             var account = await _context.Accounts
-                .Include(a => a.Customer) // Join sang bảng Customer
+                .Include(a => a.Customer)
+                .Include(a => a.Roles)// Join sang bảng Customer
                 .FirstOrDefaultAsync(a =>
                     (a.Email == input || (a.Customer != null && a.Customer.Phone == input))
                     && a.PasswordHash == pass // Nếu báo lỗi PasswordHash thì đổi thành Password nhé
@@ -132,17 +138,19 @@ namespace SmartEcommerceAPI.Controllers
             {
                 return BadRequest(new { message = "Sai Số điện thoại, Email hoặc Mật khẩu!" });
             }
-
+            var roleValue = account.Roles.Any(r => r.RoleName == "Admin") ? "Admin" : "Customer";
             // Thành công -> Trả về Token hoặc thông tin đăng nhập
-            return Ok(new { 
-                message = "Đăng nhập thành công!", 
+            return Ok(new
+            {
+                message = "Đăng nhập thành công!",
                 accountId = account.AccountId,
                 email = account.Email,
-                role = "Customer",
-                customerId = account.Customer != null ? account.Customer.CustomerId : 0,
-                fullName = account.Customer != null ? account.Customer.FullName : "",
-                phone = account.Customer != null ? account.Customer.Phone : "",
-                address = account.Customer != null ? account.Customer.Address : ""
+                role = roleValue,           // ← thực từ DB
+                accessToken = Guid.NewGuid().ToString(),  // ← tạm thời để frontend không bị chặn
+                customerId = account.Customer?.CustomerId ?? 0,
+                fullName = account.Customer?.FullName ?? "",
+                phone = account.Customer?.Phone ?? "",
+                address = account.Customer?.Address ?? ""
             });
         }
 
@@ -172,12 +180,48 @@ namespace SmartEcommerceAPI.Controllers
 
             return Ok(new { message = "Đổi mật khẩu thành công!" });
         }
+        // POST: api/Accounts/ChangePassword
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            // Tìm tài khoản trong Database
+            var account = await _context.Accounts.FindAsync(request.AccountId);
+            if (account == null)
+            {
+                return NotFound(new { message = "Tài khoản không tồn tại!" });
+            }
+
+            // Kiểm tra mật khẩu cũ
+            if (account.PasswordHash != request.OldPassword)
+            {
+                return BadRequest(new { message = "Mật khẩu hiện tại không chính xác!" });
+            }
+
+            // Cập nhật mật khẩu mới
+            account.PasswordHash = request.NewPassword;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Đổi mật khẩu thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi máy chủ: " + ex.Message });
+            }
+        }
 
         // Class nhận dữ liệu từ Javascript gửi lên
         public class ResetPassRequest
         {
             public string Phone { get; set; }
             public string NewPassword { get; set; }
+        }
+        public class ChangePasswordRequest
+        {
+            public int AccountId { get; set; }
+            public string OldPassword { get; set; } = null!;
+            public string NewPassword { get; set; } = null!;
         }
     }
 

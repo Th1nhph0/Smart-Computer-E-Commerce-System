@@ -1,5 +1,5 @@
 // HỆ THỐNG THÔNG BÁO (TOAST) THAY THẾ ALERT
-window.showToast = function(message, type = 'success', redirectUrl = null) {
+window.showToast = function (message, type = 'success', redirectUrl = null) {
     let toastContainer = document.getElementById('toast-container');
     if (!toastContainer) {
         toastContainer = document.createElement('div');
@@ -11,7 +11,7 @@ window.showToast = function(message, type = 'success', redirectUrl = null) {
     const toast = document.createElement('div');
     const bg = type === 'error' ? '#ef4444' : '#10b981'; // Đỏ hoặc Xanh lá
     const icon = type === 'error' ? '⚠️' : '✅';
-    
+
     toast.style.cssText = `
         background: ${bg}; color: white; padding: 16px 24px; border-radius: 8px;
         font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 15px;
@@ -34,8 +34,6 @@ window.showToast = function(message, type = 'success', redirectUrl = null) {
     }, 2000); // 2 giây sau tự tắt và chuyển trang (nếu có)
 };
 
-// Thay cổng 7123 bằng cổng localhost đang chạy C# của bạn
-const PRODUCT_API = 'http://localhost:5076/api/Products';
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Cập nhật nút Account 👤 trên toàn bộ các trang (index, shop, product, cart)
@@ -85,14 +83,14 @@ async function loadHomeProducts() {
 
                 const priceFormatted = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(priceValue);
 
-                
-        let r = Math.round(p.averageRating || 0);
-        let starsHtml = '';
-        for(let i=1; i<=5; i++) { starsHtml += (i<=r) ? '★' : '☆'; }
-        const revCount = p.reviewCount || 0;
-        const sales = p.totalSales || 0;
-        
-        const html = `
+
+                let r = Math.round(p.averageRating || 0);
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) { starsHtml += (i <= r) ? '★' : '☆'; }
+                const revCount = p.reviewCount || 0;
+                const sales = p.totalSales || 0;
+
+                const html = `
         <article class="product-card">
           <div class="img-wrap">
             <button class="wishlist" aria-label="Wishlist">♡</button>
@@ -189,42 +187,45 @@ function updateCartCount() {
 // OVERRIDE FOR REAL API LOGIN & PROFILE DATA
 // ==========================================
 
-const API_ACCOUNTS_LOGIN = 'http://localhost:5076/api/Accounts/login';
-const API_ORDERS = 'http://localhost:5076/api/Orders';
+const API_ACCOUNTS_LOGIN = 'https://localhost:7068/api/Accounts/login';
+const API_ORDERS = 'https://localhost:7068/api/Orders';
 
 // Override global handleLogin function
-window.handleLogin = async function(e) {
-    if(e) e.preventDefault();
-    
+window.handleLogin = async function (e) {
+    if (e) e.preventDefault();
+
     const un = document.getElementById('login-username').value;
     const pass = document.getElementById('login-password').value;
-    
+
     if (!un || !pass) {
         showToast("Vui lòng nhập tài khoản và mật khẩu!", 'error');
         return;
     }
-    
+
     try {
         const response = await fetch(API_ACCOUNTS_LOGIN, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ Username: un, Password: pass })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
             const loggedInUser = {
                 id: data.accountId,
                 username: un,
                 email: data.email || un,
                 role: data.role || 'Customer',
-                customerId: data.customerId,
-                fullName: data.fullName,
+                // Bổ sung dự phòng: Nếu không có customerId thì lấy accountId
+                customerId: data.customerId || data.accountId,
+                // Bổ sung dự phòng: Nếu chưa có tên thì lấy Username đắp vào
+                fullName: data.fullName || un,
                 phone: data.phone,
                 address: data.address
             };
             sessionStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+            sessionStorage.setItem('accessToken', data.accessToken);
             showToast("Đăng nhập thành công! Đang chuyển hướng...", 'success', 'index.html');
         } else {
             showToast(data.message || "Sai tài khoản hoặc mật khẩu!", 'error');
@@ -246,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('prof-email').value = user.email || '';
             document.getElementById('prof-phone').value = user.phone || '';
             document.getElementById('prof-address').value = user.address || '';
-            
+
             // Load real orders
             loadRealOrderHistory(user.customerId);
         }
@@ -255,9 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadRealOrderHistory(customerId) {
     const orderListContainer = document.getElementById('tab-orders');
-    if(!orderListContainer) return;
-    
-    if(!customerId || customerId == 0) {
+    if (!orderListContainer) return;
+
+    if (!customerId || customerId == 0) {
         orderListContainer.innerHTML = '<h2 style="margin-bottom: 30px;">Lịch sử mua hàng</h2><p style="text-align:center;color:#666;">Chưa có đơn hàng nào.</p>';
         return;
     }
@@ -265,31 +266,31 @@ async function loadRealOrderHistory(customerId) {
     try {
         orderListContainer.innerHTML = '<p style="text-align:center;color:#666;">Đang tải dữ liệu đơn hàng...</p>';
         const res = await fetch(API_ORDERS);
-        if(!res.ok) throw new Error("Failed to fetch orders");
-        
+        if (!res.ok) throw new Error("Failed to fetch orders");
+
         const allOrders = await res.json();
         const myOrders = allOrders.filter(o => o.customerId === customerId);
-        
+
         if (myOrders.length === 0) {
             orderListContainer.innerHTML = '<h2 style="margin-bottom: 30px;">Lịch sử mua hàng</h2><p style="text-align:center;color:#666;">Bạn chưa có đơn hàng nào.</p>';
             return;
         }
-        
+
         myOrders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
         orderListContainer.innerHTML = '<h2 style="margin-bottom: 30px;">Lịch sử mua hàng</h2>';
-        
+
         for (const order of myOrders) {
             const dateStr = new Date(order.orderDate).toLocaleDateString('vi-VN');
-            
+
             let statusTag = 'st-warning';
             let statusText = order.orderStatus;
-            
-            if(statusText === 'Pending' || statusText === 'Chờ xử lý') {
+
+            if (statusText === 'Pending' || statusText === 'Chờ xử lý') {
                 statusText = 'Chờ xử lý';
             } else if (statusText === 'Delivered' || statusText === 'Hoàn thành' || statusText === 'Đã giao' || statusText === 'Đã thanh toán') {
                 statusTag = 'st-success';
             }
-            
+
             let html = `
                 <div class="acc-order-item">
                     <div class="acc-order-header">
@@ -298,13 +299,13 @@ async function loadRealOrderHistory(customerId) {
                             ${statusText}
                         </span>
                     </div>`;
-                    
+
             try {
                 const detailRes = await fetch(`${API_ORDERS}/${order.orderId}`);
-                if(detailRes.ok) {
+                if (detailRes.ok) {
                     const detailData = await detailRes.json();
-                    if(detailData.orderDetails && detailData.orderDetails.length > 0) {
-                        for(const item of detailData.orderDetails) {
+                    if (detailData.orderDetails && detailData.orderDetails.length > 0) {
+                        for (const item of detailData.orderDetails) {
                             // Sửa lỗi hiển thị hình ảnh ở đây: API trả về item.image
                             const imgUrl = item.image || item.imageUrl || 'https://via.placeholder.com/60';
                             html += `
@@ -324,10 +325,10 @@ async function loadRealOrderHistory(customerId) {
                     }
                 }
             } catch (e) { console.error(e); }
-            
+
             // Xử lý nút bấm theo trạng thái
             let actionButtons = `<button class="acc-btn-outline" style="margin-left:8px; padding: 6px 12px;" onclick="viewOrderDetails(${order.orderId})">Xem chi tiết</button>`;
-            
+
             if (statusText === 'Chờ xử lý') {
                 actionButtons += `<button class="acc-btn-outline" style="margin-left:8px; padding: 6px 12px; color:red; border-color:red;" onclick="cancelOrder(${order.orderId})">Hủy đơn</button>`;
             }
@@ -345,10 +346,10 @@ async function loadRealOrderHistory(customerId) {
                         </div>
                     </div>
                 </div>`;
-            
+
             orderListContainer.innerHTML += html;
         }
-        
+
     } catch (error) {
         console.error(error);
         orderListContainer.innerHTML = '<p style="text-align:center;color:red;">Lỗi khi tải lịch sử mua hàng.</p>';
@@ -356,12 +357,12 @@ async function loadRealOrderHistory(customerId) {
 }
 
 // Hàm hỗ trợ
-window.viewOrderDetails = async function(orderId) {
+window.viewOrderDetails = async function (orderId) {
     try {
         const res = await fetch(API_ORDERS + '/' + orderId);
-        if(!res.ok) throw new Error("Lỗi tải chi tiết");
+        if (!res.ok) throw new Error("Lỗi tải chi tiết");
         const order = await res.json();
-        
+
         let html = `
         <div id="order-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; justify-content:center; align-items:center;">
             <div style="background:#fff; width:800px; max-width:95%; border-radius:8px; padding:25px; max-height:90vh; overflow-y:auto; position:relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
@@ -398,7 +399,7 @@ window.viewOrderDetails = async function(orderId) {
                         </thead>
                         <tbody>
         `;
-        
+
         if (order.orderDetails && order.orderDetails.length > 0) {
             order.orderDetails.forEach(item => {
                 html += `
@@ -412,7 +413,7 @@ window.viewOrderDetails = async function(orderId) {
         } else {
             html += `<tr><td colspan="3" style="text-align:center; padding:15px; color:#999;">Không có dữ liệu sản phẩm</td></tr>`;
         }
-        
+
         html += `
                         </tbody>
                     </table>
@@ -423,23 +424,23 @@ window.viewOrderDetails = async function(orderId) {
             </div>
         </div>
         `;
-        
+
         // Tránh trùng lặp modal nếu bấm nhiều lần
         const existing = document.getElementById('order-modal');
-        if(existing) existing.remove();
-        
+        if (existing) existing.remove();
+
         document.body.insertAdjacentHTML('beforeend', html);
-        
+
     } catch (e) {
         console.error(e);
         alert('Không thể tải chi tiết đơn hàng!');
     }
 }
 
-window.cancelOrder = async function(orderId) {
-    if(confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + orderId + ' không?')) {
+window.cancelOrder = async function (orderId) {
+    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + orderId + ' không?')) {
         try {
-            const res = await fetch(`${API_ORDERS}/${orderId}/cancel`, { 
+            const res = await fetch(`${API_ORDERS}/${orderId}/cancel`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -455,3 +456,4 @@ window.cancelOrder = async function(orderId) {
         }
     }
 }
+

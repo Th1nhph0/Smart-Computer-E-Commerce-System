@@ -23,17 +23,29 @@ async function loadEmployees() {
         if (!res.ok) throw new Error("Lỗi mạng");
         const allAccounts = await res.json();
 
-        // Lọc bỏ Khách hàng (Nếu API backend của bạn có trả về .Customer)
-        // Lọc Nhân sự: Lấy những ai có chức vụ KHÁC 'Customer', hoặc chưa có chức vụ
-        globalEmployees = allAccounts.filter(acc => {
-            if (acc.roles && acc.roles.length > 0) {
-                // Kiểm tra xem tài khoản này có chức vụ nào khác 'Customer' không
-                return acc.roles.some(r => (r.roleName || r.name) !== 'Customer');
-            }
-            return true; // Nếu mới tạo (như Acc #3) chưa có chức vụ thì vẫn cho hiện lên
+        // Xử lý định dạng dữ liệu nếu Backend trả về kiểu Entity Framework Core $values
+        const accountsList = allAccounts.$values || allAccounts;
+
+        // BỘ LỌC CHUẨN XÁC: CHỈ LẤY NHÂN VIÊN, QUẢN TRỊ, ADMIN,... VÀ LOẠI BỎ HOÀN TOÀN KHÁCH HÀNG
+        globalEmployees = accountsList.filter(acc => {
+            const roles = acc.roles || acc.Roles || [];
+
+            // Nếu tài khoản không có Role nào hoặc toàn Role Customer -> Bỏ qua
+            if (roles.length === 0) return false;
+
+            // Kiểm tra xem trong các Role có chứa quyền khách hàng không
+            const isCustomer = roles.some(r => {
+                const rName = (r.roleName || r.RoleName || r.name || '').toLowerCase();
+                return rName === 'customer' || rName.includes('khách hàng');
+            });
+
+            // Chỉ giữ lại những tài khoản KHÔNG PHẢI là khách hàng
+            return !isCustomer;
         });
+
         renderEmployeeTable(globalEmployees);
     } catch (e) {
+        console.error(e);
         tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Lỗi kết nối Server API!</td></tr>';
     }
 }

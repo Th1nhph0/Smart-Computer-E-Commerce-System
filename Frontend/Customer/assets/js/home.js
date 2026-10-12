@@ -1,5 +1,5 @@
 // Đổi cổng API cho khớp với máy bạn
-const PRODUCT_API = 'http://localhost:5076/api/Products';
+const PRODUCT_API = 'https://localhost:7068/api/Products';
 
 let allProducts = [];
 
@@ -23,7 +23,7 @@ async function loadHomeData() {
         renderCategoryTabs();
 
         // 3. Mặc định hiển thị 8 sản phẩm mới nhất
-        let highStockFirst = [...allProducts].sort((a,b) => (b.currentStock || 0) - (a.currentStock || 0));
+        let highStockFirst = [...allProducts].sort((a, b) => (b.currentStock || 0) - (a.currentStock || 0));
         renderProducts(highStockFirst.slice(0, 8));
 
     } catch (e) {
@@ -122,10 +122,10 @@ function renderProducts(productsList) {
         const id = p.productId || p.id;
         const name = p.productName || p.name;
         const basePrice = p.price || 0;
-        
+
         let discountPercent = 0;
         let badgeHtml = '';
-        
+
         // Logic Khuyến mãi
         if ((p.currentStock || 0) > 20) {
             discountPercent = 15;
@@ -133,7 +133,7 @@ function renderProducts(productsList) {
         }
 
         const discountPrice = basePrice * (1 - (discountPercent / 100));
-        
+
         const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
         const priceFormatted = formatter.format(discountPrice);
         const oldPriceHtml = discountPercent > 0 ? `<span style="text-decoration:line-through; color:#999; font-size:12px; margin-left:8px;">${formatter.format(basePrice)}</span>` : '';
@@ -145,10 +145,10 @@ function renderProducts(productsList) {
 
         let r = Math.round(p.averageRating || 0);
         let starsHtml = '';
-        for(let i=1; i<=5; i++) { starsHtml += (i<=r) ? '★' : '☆'; }
+        for (let i = 1; i <= 5; i++) { starsHtml += (i <= r) ? '★' : '☆'; }
         const revCount = p.reviewCount || 0;
         const sales = p.totalSales || 0;
-        
+
         container.innerHTML += `
         <article class="product-card" style="position:relative;">
           ${badgeHtml}

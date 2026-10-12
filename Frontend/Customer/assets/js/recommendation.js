@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchRecommendations(id) {
     try {
-        const response = await fetch(`http://localhost:5076/api/Products/${id}/SmartRecommendations`);
+        const response = await fetch(`https://localhost:7068/api/Products/${id}/SmartRecommendations`);
         if (!response.ok) return;
 
         const combos = await response.json();
-        
+
         if (combos && combos.length > 0) {
             renderComboUI(combos);
         }
@@ -26,7 +26,7 @@ async function fetchRecommendations(id) {
 function renderComboUI(combos) {
     const container = document.getElementById('combo-recommendations');
     const list = document.getElementById('combo-list');
-    
+
     if (!container || !list) return;
 
     list.innerHTML = ''; // clear
@@ -73,9 +73,9 @@ function addComboToCart(recommendedProductId) {
     const urlParams = new URLSearchParams(window.location.search);
     const mainProductId = urlParams.get('id');
     const qty = parseInt(document.getElementById('p-qty')?.value || 1);
-    
+
     // Fake add to cart logic - redirect to cart or show alert
     alert(`Đã thêm thành công cả sản phẩm chính và sản phẩm gợi ý (ID: ${recommendedProductId}) vào giỏ hàng với mức giá ưu đãi!`);
-    
+
     // Real implementation would involve calling POST /api/Cart for both items.
 }

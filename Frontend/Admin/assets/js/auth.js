@@ -30,11 +30,17 @@
         if (response.ok) {
             const accountData = await response.json();
 
+            if (accountData.role !== 'Admin' || !accountData.accessToken) {
+                alert("Tài khoản này không có quyền truy cập trang quản trị.");
+                return;
+            }
+
             // Xóa rác cũ và lưu dữ liệu mới vào Trình duyệt
             localStorage.clear();
             localStorage.setItem('userId', accountData.accountId || accountData.id);
             localStorage.setItem('userName', accountData.username || accountData.email || 'Admin');
-            localStorage.setItem('userRole', 'Admin');
+            localStorage.setItem('userRole', accountData.role);
+            localStorage.setItem('accessToken', accountData.accessToken);
 
             // Chuyển trang
             window.location.href = 'index.html';

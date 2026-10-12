@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchAprioriData() {
     try {
-        const response = await fetch('https://localhost:7068/api/Analytics/ProductAssociations?minSupport=0.05&minConfidence=0.3');
+        const response = await fetch(`${API_URL}/api/Analytics/ProductAssociations?minSupport=0.05&minConfidence=0.3`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
